@@ -146,12 +146,12 @@ const addEmployee = () => {
     inquirer.prompt([
         {
             type: "input",
-            name: 'first_name',
+            name: 'firstName',
             message: "What's their first name?"
         },
         {
             type: "input",
-            name: "last_name",
+            name: "lastName",
             message: "What's their last name?"
         },
         {
@@ -166,6 +166,20 @@ const addEmployee = () => {
             message: "What is their salary?",
             choices: managerSelection()
         }
+        .then((data) => {
+            // in case the role/manager id's are NULL, at least the FIRST index will be returned each time
+            let roleID = roleSelection().indexOf(val.role) + 1;
+            let managerID = managerSelection.indexOf(vale.managerList) +1;
+            connection.query("INSERT INTO employee SET ?",
+            {
+                first_name: val.firstName,
+                last_name: val.lastName,
+                role_id: roleID,
+                manager_id: managerID
+            });
+            (err) => err ? console.log(err) : console.table(data);
+            mainPrompt();
+        })
 
     ])
 }
