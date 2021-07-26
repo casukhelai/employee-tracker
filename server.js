@@ -103,6 +103,7 @@ const addDepartment = () => {
         }
     ])
     .then((response) => {
+        // insert department name response into the data, creating a new row
         const query = 'INSERT INTO department SET ?';
         connection.query(query, {department: response.department}, (err, res) => {
             if(err) return err;
@@ -129,6 +130,7 @@ const addRole = () => {
             }
         ])
         .then((response) => {
+            // insert the values within the data set
             connection.query(
                 'INSERT INTO role SET ?',
                 {
@@ -184,9 +186,9 @@ const addEmployee = () => {
     ])
 }
 
-// const viewDepartment = () => {
-
-// }
+const viewDepartment = () => {
+    connection.query('SELECT employee.first_name, employee.last_name, department.name AS Department')
+}
 
 // const viewEmployee = () => {
 
