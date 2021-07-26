@@ -67,7 +67,33 @@ const mainPrompt = () =>{
     })
 };
 
-// ******** Functions Called *********
+// ******** Supporting functions *********
+
+// need an array to select the roles from
+const roleSelection = () => {
+    let rolesArr = [];
+    // connection.query basically looks at the sql table
+    connection.query('SELECT *  FROM role', (err,res) => {
+        for(let i=0;i<res.length;i++){
+            rolesArr.push(res[i].title)
+        }
+        if (err) throw err;
+    });
+    return rolesArr;
+}
+
+// Need a list to choose from the manager
+const managerSelection = () => {
+    let managersArr = [];
+    connection.query('SELECT first_name, last_name FROM employee WHERE manager_id IS NOT NULL', (err, res) => {
+        for(let i=0;i<res.length;i++){
+            managersArr.push(res[i].first_name);
+        }
+    });
+    return managersArr;
+}
+
+// ******** MAIN Functions Called *********
 const addDepartment = () => {
     inquirer.prompt([
         {
@@ -80,27 +106,16 @@ const addDepartment = () => {
         const query = 'INSERT INTO department SET ?';
         connection.query(query, {department: response.department}, (err, res) => {
             if(err) return err;
-            consolve.log("\n DEPARTMENT ADDED...\n");
+            console.log("\n DEPARTMENT ADDED...\n");
             mainPrompt();
         })
     });
 };
 
-// need an array to select the roles from
-let rolesArr = [];
-const roleSelection = () => {
-    // connection.query basically looks at the sql table
-    connection.query('SELECT *  FROM role', (err,res) => {
-        for(let i=0;i<res.length;i++){
-            rolesArr.push(res[i].title)
-        }
-        if (err) throw err;
-    });
-    return rolesArr;
-}
 
 const addRole = () => {
-    connection.query('SELECT role.title AS title, role.salary AS salary FROM role', (err, res) => {
+    connection.query('SELECT role.title AS title, role.salary AS salary FROM role', (err,res) => {
+        if(err) return err;
         inquirer.prompt([
             {
                 type: 'input',
@@ -114,12 +129,14 @@ const addRole = () => {
             }
         ])
         .then((response) => {
-            const query = connection.query('INSERT INTO role SET ?',
-            {
-                title: response.title,
-                salary: response.salary
-            },
-            (err) => err ? console.log(err) : console.log("successfully added role!"))
+            connection.query(
+                'INSERT INTO role SET ?',
+                {
+                    title: response.title,
+                    salary: response.salary,
+                },
+                console.table(response)
+            );
         });
     })
     
@@ -137,6 +154,18 @@ const addEmployee = () => {
             name: "last_name",
             message: "What's their last name?"
         },
+        {
+            type: "list",
+            name: "role",
+            message: "What is their role?",
+            choices: roleSelection()
+        },
+        {
+            type: "list",
+            name: "managerList",
+            message: "What is their salary?",
+            choices: managerSelection()
+        }
 
     ])
 }
