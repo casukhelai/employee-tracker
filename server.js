@@ -187,15 +187,23 @@ const addEmployee = () => {
 }
 
 const viewDepartment = () => {
-    connection.query('SELECT employee.first_name, employee.last_name, department.name AS Department')
+    // select the employee first last name and department name under the column alias Department
+    // join the role based on the employee role ID & the department based on the role dept id,and order it by the employee id
+    // employee.role_id = role.id is telling us that they are to be considered the same value
+    connection.query('SELECT employee.first_name, employee.last_name, department.name AS Department FROM employee JOIN role ON employee.role_id = role.id JOIN role.department_id = department.id ORDER BY employee.id;', 
+    (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        mainPrompt();
+    })
 }
 
-// const viewEmployee = () => {
+const viewEmployee = () => {
 
-// }
+}
 
 // const viewRole = () => {
-
+    
 // }
 
 // const updateEmployee = () => {
