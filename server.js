@@ -211,7 +211,14 @@ const viewEmployee = () => {
 }
 
 const viewRole = () => {
-    // select
+    // select role.title, department, role salary from the role
+    connection.query('SELECT role.title, department.name, role.salary FROM role INNER JOIN department on role.department_id = department.id ORDER BY role.title;',
+    (err, res) => {
+        if(err) throw err;
+        console.table(res);
+        mainPrompt();
+    })
+
 }
 
 // const updateEmployee = () => {
