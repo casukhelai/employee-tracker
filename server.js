@@ -201,7 +201,7 @@ const viewDepartment = () => {
 const viewEmployee = () => {
     // select the employee name (WHICH NEEDS TO BE BROUGHT TOGETHER), the role's TITLE, SALARY, and the department name, under the alias of manager
     // take this from the employee table and use INNER JOIN (taking corresponding info from the other tables) on role id as employee.role_id and department id, left join on employee manager id
-    connection.query('SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(employee.first_name, " ", employee.last_name) AS Manager FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id LEFT JOIN employee ON employee.manager_id = employee.id;',
+    connection.query('SELECT CONCAT(manager.first_name, " ", manager.last_name) AS Manager, CONCAT(employee.first_name, " ", employee.last_name) AS Employee FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id LEFT JOIN employee ON employee.manager_id = employee.id;',
     (err, res) => {
         if (err) throw err;
         console.table(res);
@@ -210,9 +210,9 @@ const viewEmployee = () => {
 
 }
 
-// const viewRole = () => {
-    
-// }
+const viewRole = () => {
+    // select
+}
 
 // const updateEmployee = () => {
 
