@@ -20,7 +20,9 @@
   "homepage": "https://github.com/casukhelai/employee-tracker#readme",
   "dependencies": {
     "console.table": "^0.10.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "inquirer": "^8.1.2"
+    "inquirer": "^8.1.2",
+    "mysql": "^2.18.1"
   }
 }

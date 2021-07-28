@@ -171,7 +171,7 @@ const addEmployee = () => {
         .then((data) => {
             // in case the role/manager id's are NULL, at least the FIRST index will be returned each time
             let roleID = roleSelection().indexOf(val.role) + 1;
-            let managerID = managerSelection.indexOf(vale.managerList) +1;
+            let managerID = managerSelection.indexOf(val.managerList) +1;
             connection.query("INSERT INTO employee SET ?",
             {
                 first_name: val.firstName,
@@ -222,7 +222,21 @@ const viewRole = () => {
 }
 
 // const updateEmployee = () => {
-
+//     // 
+//     connection.query('SELECT employee.last_name, role.title FROM employee JOIN role ON employee.role_id = role.id;', 
+//     (err,res) => {
+//         if (err) throw err;
+//         console.table(res);
+//         inquirer
+//         .prompt([
+//             {
+//                 type: 'list',
+//                 name: 'employeeList',
+//                 message: 'Please choose an employee to update.',
+//                 choices: 
+//             }
+//         ])
+//     })
 // }
 
 // app listener
